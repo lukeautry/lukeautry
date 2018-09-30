@@ -1,0 +1,66 @@
+$default-dark: #acacac;
+
+html {
+  font-family: 'Gothic A1', sans-serif;
+}
+
+body { 
+  margin: 0;
+}
+
+html, body, .fh {
+  height: 100%;
+}
+
+html, h1, h2 {
+  font-weight: 100;
+}
+
+.content {
+  max-width: 800px;
+  width: 100%;
+}
+
+header {
+  background-color: #232323;
+  padding: .75rem 1rem;
+
+  .title {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: #c4c4c4;
+  }
+
+  a {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $default-dark;
+    font-size: .8rem;
+    margin-left: 1rem;
+    letter-spacing: 2px;
+
+    &:hover {
+      opacity: .8;
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: #3ba5e7;
+      text-decoration: none;
+    }
+  }
+}
+
+.fl { display: flex }
+.vc { align-items: center; }
+.jc { justify-content: center; }
+.sb { justify-content: space-between; }
+.rel { position: relative; }
+.co { flex-direction: column; }
+.grow { flex: 1; }
+.oa { overflow: auto; }
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+}

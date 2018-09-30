@@ -1,0 +1,9 @@
+@import "../../../base.scss";
+
+.image-container {
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("/images/twiddy_hq.png");
+  margin-bottom: 3rem;
+}
