@@ -14,7 +14,7 @@ watcher.on('change', path => {
 
 generate();
 
-const content = new nodeStatic.Server('./docs');
+const content = new nodeStatic.Server('./dist');
 
 const port = 64536;
 http.createServer((request, response) => {
