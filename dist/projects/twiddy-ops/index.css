@@ -34,6 +34,18 @@ header {
     header a.active {
       color: #3ba5e7;
       text-decoration: none; }
+  @media (max-width: 600px) {
+    header {
+      display: block !important; }
+      header .title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: .5rem; }
+      header .links {
+        display: flex;
+        justify-content: space-around; }
+        header .links a {
+          margin-left: 0; } }
 
 .fl {
   display: flex; }
@@ -62,6 +74,9 @@ header {
 h2 {
   text-align: center;
   font-size: 2rem; }
+
+.twiddy {
+  padding: 0 1rem; }
 
 .image-container {
   height: 500px;
