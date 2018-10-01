@@ -74,15 +74,15 @@ export const generate = () => {
 
   (async () => {
     await new Promise((r, j) => {
-      rimraf('./dist', {}, (err) => {
+      rimraf('./docs', {}, (err) => {
         if (err) { return j(err); }
         r();
       })
     });
 
-    fs.mkdirSync('./dist');
-    fs.copyFileSync('./src/favicon.ico', './dist/favicon.ico');
-    await executeCmd('cp -r ./src/images dist')
+    fs.mkdirSync('./docs');
+    fs.copyFileSync('./src/favicon.ico', './docs/favicon.ico');
+    await executeCmd('cp -r ./src/images docs')
 
     interface IRenderSectionParams {
       label: string;
@@ -93,7 +93,7 @@ export const generate = () => {
 
     const renderSection = async ({ label, rootPath, computedPath, key }: IRenderSectionParams) => {
       const content = fs.readFileSync(`./src/sections/${computedPath}/${key}.html`).toString();
-      fs.mkdirSync(`./dist/${computedPath}`);
+      fs.mkdirSync(`./docs/${computedPath}`);
 
       const rendered = layout({
         rootPath,
@@ -102,7 +102,7 @@ export const generate = () => {
         computedPath
       });
 
-      fs.writeFileSync(`./dist/${computedPath}/index.html`, rendered);
+      fs.writeFileSync(`./docs/${computedPath}/index.html`, rendered);
 
       // compile sass
       let scssPath = `./src/sections/${computedPath}/${key}.scss`;
@@ -116,7 +116,7 @@ export const generate = () => {
           r(result);
         })
       });
-      fs.writeFileSync(`./dist/${computedPath}/index.css`, result.css);
+      fs.writeFileSync(`./docs/${computedPath}/index.css`, result.css);
     }
 
     for (let section of sections) {
