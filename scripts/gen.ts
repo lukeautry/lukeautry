@@ -8,6 +8,7 @@ interface ISection {
   label: string;
   key: string;
   subsections?: ISection[];
+  index?: boolean;
 }
 
 const sections: ISection[] = [
@@ -23,7 +24,8 @@ const sections: ISection[] = [
         label: 'Twiddy Ops Portal',
         key: 'twiddy-ops'
       }
-    ]
+    ],
+    index: true
   },
   {
     label: 'Blog',
@@ -89,9 +91,10 @@ export const generate = () => {
       key: string;
       rootPath: string;
       computedPath: string;
+      index?: boolean;
     }
 
-    const renderSection = async ({ label, rootPath, computedPath, key }: IRenderSectionParams) => {
+    const renderSection = async ({ label, rootPath, computedPath, key, index }: IRenderSectionParams) => {
       const content = fs.readFileSync(`./src/sections/${computedPath}/${key}.html`).toString();
       fs.mkdirSync(`./dist/${computedPath}`);
 
@@ -103,6 +106,10 @@ export const generate = () => {
       });
 
       fs.writeFileSync(`./dist/${computedPath}/index.html`, rendered);
+
+      if (index) {
+        fs.writeFileSync(`./dist/index.html`, rendered);
+      }
 
       // compile sass
       let scssPath = `./src/sections/${computedPath}/${key}.scss`;
@@ -117,6 +124,10 @@ export const generate = () => {
         })
       });
       fs.writeFileSync(`./dist/${computedPath}/index.css`, result.css);
+
+      if (index) {
+        fs.writeFileSync(`./dist/index.css`, result.css);
+      }
     }
 
     for (let section of sections) {
@@ -124,7 +135,8 @@ export const generate = () => {
         label: section.label,
         key: section.key,
         rootPath: section.key,
-        computedPath: section.key
+        computedPath: section.key,
+        index: section.index
       });
 
       if (section.subsections) {
