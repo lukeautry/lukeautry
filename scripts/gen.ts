@@ -111,7 +111,7 @@ export const generate = () => {
       }
 
       const result = await new Promise<sass.Result>((r, j) => {
-        sass.render({ file: scssPath }, (err, result) => {
+        sass.render({ file: scssPath, outputStyle: 'compressed' }, (err, result) => {
           if (err) { return j(err); }
           r(result);
         })
