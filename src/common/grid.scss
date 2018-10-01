@@ -1,0 +1,39 @@
+$default-spacing: 1rem;
+
+.grid {
+    display: grid !important;
+
+    .tile {
+      position: relative;
+      color: white;
+      padding: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+
+      .title {
+        font-size: 2rem;
+      }
+
+      .subtitle {
+        color: #d1d1d1;
+      }
+
+      &:hover {
+        .image-container {
+          filter: brightness(0.6);
+        }
+      }
+    }
+
+    .image-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      filter: brightness(0.4);
+      z-index: -1;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+}

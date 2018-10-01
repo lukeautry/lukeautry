@@ -107,7 +107,7 @@ export const generate = () => {
       // compile sass
       let scssPath = `./src/sections/${computedPath}/${key}.scss`;
       if (!fs.existsSync(scssPath)) {
-        scssPath = `./src/base.scss`;
+        scssPath = `./src/common/base.scss`;
       }
 
       const result = await new Promise<sass.Result>((r, j) => {

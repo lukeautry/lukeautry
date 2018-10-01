@@ -1,75 +1,37 @@
-@import "../../base.scss";
-
-$default-spacing: 1rem;
+@import "../../common/base.scss";
+@import "../../common/grid.scss";
 
 .grid {
-    margin: 1rem 0;
-    display: grid !important;
-    grid-template-columns: 1fr $default-spacing 1fr;
-    grid-auto-rows: 350px $default-spacing;
+  grid-template-columns: 1fr $default-spacing 1fr;
+  grid-auto-rows: 350px $default-spacing;
+}
 
-    .tile {
-      display: block;
-      position: relative;
-      color: white;
-      padding: 1rem;
-      cursor: pointer;
-      text-decoration: none;
+.erc-dex {
+  grid-column: 1 / 4;
 
-      .title {
-        font-size: 2rem;
-      }
+  .image-container {
+    background-image: url("/images/ercdex.png");
+  }
+}
 
-      .subtitle {
-        color: #d1d1d1;
-      }
+.tsoa {
+  .image-container {
+    background-image: url("/images/tsoa.png");
+  }
+}
 
-      &:hover {
-        .image-container {
-          filter: brightness(0.6);
-        }
-      }
-    }
+.twiddy {
+  .image-container {
+    background-image: url("/images/twiddy.png");
+  }
+}
 
-    .erc-dex {
-      grid-column: 1 / 4;
+.tsoa {
+  grid-row: 3;
+  grid-column: 1 / 2;
+}
 
-      .image-container {
-        background-image: url("/images/ercdex.png");
-      }
-    }
-
-    .tsoa {
-      .image-container {
-        background-image: url("/images/tsoa.png");
-      }
-    }
-
-    .twiddy {
-      .image-container {
-        background-image: url("/images/twiddy.png");
-      }
-    }
-
-    .tsoa {
-      grid-row: 3;
-      grid-column: 1 / 2;
-    }
-
-    .twiddy {
-      grid-row: 3;
-      grid-column: 3 / 4;
-    }
-
-    .image-container {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      filter: brightness(0.4);
-      z-index: -1;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
+.twiddy {
+  grid-row: 3;
+  grid-column: 3 / 4;
 }

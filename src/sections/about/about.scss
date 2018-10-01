@@ -1,0 +1,26 @@
+@import "../../common/base.scss";
+
+.about {
+  strong {
+    font-size: 1.25rem;
+  }
+}
+
+.me-container {
+  background-color: #ededed;
+  padding: 3rem;
+}
+
+.info-container {
+  padding: 1rem;
+  background-color: #f6f6f6;
+}
+
+.me {
+  width: 150px;
+  height: 150px;
+  background-image: url("/images/me.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+

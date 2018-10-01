@@ -64,12 +64,8 @@ h2 {
   font-size: 2rem; }
 
 .grid {
-  margin: 1rem 0;
-  display: grid !important;
-  grid-template-columns: 1fr 1rem 1fr;
-  grid-auto-rows: 350px 1rem; }
+  display: grid !important; }
   .grid .tile {
-    display: block;
     position: relative;
     color: white;
     padding: 1rem;
@@ -81,20 +77,6 @@ h2 {
       color: #d1d1d1; }
     .grid .tile:hover .image-container {
       filter: brightness(0.6); }
-  .grid .erc-dex {
-    grid-column: 1 / 4; }
-    .grid .erc-dex .image-container {
-      background-image: url("/images/ercdex.png"); }
-  .grid .tsoa .image-container {
-    background-image: url("/images/tsoa.png"); }
-  .grid .twiddy .image-container {
-    background-image: url("/images/twiddy.png"); }
-  .grid .tsoa {
-    grid-row: 3;
-    grid-column: 1 / 2; }
-  .grid .twiddy {
-    grid-row: 3;
-    grid-column: 3 / 4; }
   .grid .image-container {
     position: absolute;
     top: 0;
@@ -105,3 +87,26 @@ h2 {
     z-index: -1;
     background-repeat: no-repeat;
     background-size: cover; }
+
+.grid {
+  grid-template-columns: 1fr 1rem 1fr;
+  grid-auto-rows: 350px 1rem; }
+
+.erc-dex {
+  grid-column: 1 / 4; }
+  .erc-dex .image-container {
+    background-image: url("/images/ercdex.png"); }
+
+.tsoa .image-container {
+  background-image: url("/images/tsoa.png"); }
+
+.twiddy .image-container {
+  background-image: url("/images/twiddy.png"); }
+
+.tsoa {
+  grid-row: 3;
+  grid-column: 1 / 2; }
+
+.twiddy {
+  grid-row: 3;
+  grid-column: 3 / 4; }
