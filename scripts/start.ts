@@ -23,4 +23,4 @@ http.createServer((request, response) => {
   }).resume();
 }).listen(port);
 
-console.log(chalk.greenBright(`Dev server at http://localhost:${port}`));
+console.log(chalk.greenBright(`Dev Server at http://localhost:${port}`));
