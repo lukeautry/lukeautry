@@ -8,10 +8,7 @@ const watcher = chokidar.watch('./src/**/*', {
   persistent: true
 });
 
-watcher.on('change', path => {
-  generate();
-})
-
+watcher.on('change', () => generate());
 generate();
 
 const content = new nodeStatic.Server('./dist');
