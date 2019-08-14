@@ -26,7 +26,7 @@ header {
   padding: .75rem 1rem;
 
   .title {
-    font-size: 1rem;
+    font-size: 1.5rem;
     letter-spacing: 2px;
     color: #c4c4c4;
   }
@@ -35,7 +35,7 @@ header {
     text-transform: uppercase;
     text-decoration: none;
     color: $default-dark;
-    font-size: .8rem;
+    font-size: 1rem;
     margin-left: 1rem;
     letter-spacing: 2px;
 
@@ -47,6 +47,7 @@ header {
     &.active {
       color: #3ba5e7;
       text-decoration: none;
+      font-weight: bold;
     }
   }
 
