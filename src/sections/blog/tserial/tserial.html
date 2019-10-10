@@ -71,9 +71,9 @@
 <ul>
 <li>Granular error reporting can give consumers actionable information</li>
 <li>Callers of this assertion utility are forced to handle the deserialization failure</li>
-<li>This function proves, one step at a time, that our unknown value is an <code>IPerson</code>. This is a powerful way to create a "living" assertion. If we were to add a property <code>city</code> to <code>IPerson</code>, the compiler would complain to us on the final line of <code>assertPerson</code>. After all, up to that point, we've only proven something like <code>{ firstName: string; lastName: string }</code>, which doesn't match <code>{ firstName: string; lastName: string; city: string }</code>.</li>
+<li>This function can, with some small changes, prove that our unknown value is an <code>IPerson</code>. This is a powerful way to create a "living" assertion. If we were to add a property <code>city</code> to <code>IPerson</code>, the compiler would raise an error on the final line of <code>assertPerson</code>. After all, up to that point, we've only proven something like <code>{ firstName: string; lastName: string }</code>, which doesn't match <code>{ firstName: string; lastName: string; city: string }</code>.</li>
 </ul>
-<p>The disadvantage is that you have to write the code in <code>assertPerson</code>. Couldn't we automate this process?</p>
+<p>The main disadvantage is that you have to write the code in <code>assertPerson</code>. Couldn't we automate this process?</p>
 <h2 id="thetserialsolution">The <code>tserial</code> solution</h2>
 <p><code>tserial</code> uses the TypeScript compiler API to generate assertion statements similar to the example shown above. <code>tserial</code> usage, which we'll describe in more detail later, is simple, transparent, and low overhead. I designed it with a few desirable outcomes in mind. I wasn't sure how many of these goals I'd be able to meet.</p>
 <ul>
