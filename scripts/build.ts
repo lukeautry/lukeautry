@@ -1,3 +1,3 @@
-import { generate } from "./gen";
+import { generate } from "./generate";
 
 generate();

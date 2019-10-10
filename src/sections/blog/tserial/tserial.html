@@ -1,0 +1,137 @@
+
+        <div class="post">
+          <h1 class="post-title">tserial: Validate TypeScript interfaces at runtime</h1>
+          <div class="post-description">A new way to validate JavaScript objects across system boundaries</div>
+          <p>One of the most powerful and well-regarded aspects of TypeScript is its structural typing. Interfaces and type expressions allow developers to define the shape of their abstractions with no runtime overhead. This grants developers the ability to approach their programs with a data-first mentality. With more advanced features like string literals, union types, intersection types, and tagged unions, developers can use types to express powerful patterns and build up compile-time guarantees around their code.</p>
+<p>If you're like me, you find yourself using classes less, and interfaces more - <em>especially</em> around system boundaries. Interfaces are well-suited for representing pure data, especially the type transferred over the wire, e.g. through a REST API, WebSockets, or from some connected data store.</p>
+<p>When we were converting core components of our Node.js codebase from CoffeeScript to TypeScript at Heap, we stumbled upon a big challenge: <strong>how do know if the types we've created accurately reflect what's present at runtime?</strong> The entire point of using TypeScript is to avoid unexpected behavior at runtime; unvalidated inputs that come from Non-TypeScript World potentially create a cascade of unexpected behavior. <strong>On the server, this creates bugs and, in the worst cases, critical vulnerabilities.</strong></p>
+<h2 id="runtimevalidationanddeserialization">Runtime validation and deserialization</h2>
+<p>Developers who have spent much time writing code in compiled languages like Java, C#, or Go will be familiar with the concept of deserializing common data formats, such as JSON, into their runtime equivalents. Typically, this is implemented using reflection; the data "becomes" a class or a struct.</p>
+<p>In dynamic languages, like JavaScript, the approach is usually different. We use libraries like <a href="https://github.com/hapijs/joi">joi</a> to validate data, or <a href="https://json-schema.org">json-schema</a> to define a source of truth for the data that we're passing from service to service. Type information is encoded within some runtime representation. </p>
+<p>For projects primarily using TypeScript, we're somewhere in the middle. We have compile-time types, but the metadata necessary to reference those types aren't found in compiled JavaScript. <a href="https://github.com/rbuckton/reflect-metadata">reflect-metadata</a> does an admirable job of making some metadata available at runtime, but it does so with decorators, limiting its use to classes, methods, etc.</p>
+<h2 id="themanualsolution">The manual solution</h2>
+<p>Before getting into the <code>tserial</code> solution, let's think through our ideal handwritten solution. Let's suppose we have an interface <code>IPerson</code>:</p>
+<pre><code class="hljs typescript language-typescript"><span class="hljs-keyword">interface</span> IPerson {
+  firstName: <span class="hljs-built_in">string</span>;
+  lastName: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+<p>A basic assertion would make use of type guard function:</p>
+<pre><code class="hljs typescript language-typescript"><span class="hljs-keyword">const</span> isPerson = (person: unknown): person is IPerson =&gt; {
+  <span class="hljs-keyword">if</span> (!person) { <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; }
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> person !== <span class="hljs-string">'object'</span>) { <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; }
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> person.firstName !== <span class="hljs-string">'string'</span>) { <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; }
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> person.lastName !== <span class="hljs-string">'string'</span>) { <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+
+<span class="hljs-keyword">if</span> (isPerson(untrustedInput)) {
+  <span class="hljs-comment">// untrustedInput is type IPerson now!</span>
+}
+</code></pre>
+<p>This is a pretty good start, but if we assume that IPerson is expected to define some POST body parameter, we'd like to surface a better error message than, "Your request body wasn't IPerson. It's up to you to figure out how." Let's create a function that offers a higher resolution result.</p>
+<pre><code class="hljs typescript language-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> Result&lt;T&gt; = ISuccessResult&lt;T&gt; | IErrorResult;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> ISuccessResult&lt;T&gt; {
+  success: <span class="hljs-literal">true</span>;
+  value: T;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IErrorResult {
+  success: <span class="hljs-literal">false</span>;
+  message: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">const</span> assertPerson = (person: unknown): Result&lt;IPerson&gt; =&gt; {
+  <span class="hljs-keyword">if</span> (!person) { 
+    <span class="hljs-keyword">return</span> { success: <span class="hljs-literal">false</span>, message: <span class="hljs-string">'expected person to be defined'</span> }; 
+  }
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> person !== <span class="hljs-string">'object'</span>) { 
+    <span class="hljs-keyword">return</span> { success: <span class="hljs-literal">false</span>, message: <span class="hljs-string">'expected person to be an object'</span> }; 
+  }
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> person.firstName !== <span class="hljs-string">'string'</span>) { 
+    <span class="hljs-keyword">return</span> { success: <span class="hljs-literal">false</span>, message: <span class="hljs-string">'expected person.firstName to be a string'</span> };
+  }
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> person.lastName !== <span class="hljs-string">'string'</span>) {
+    <span class="hljs-keyword">return</span> { success: <span class="hljs-literal">false</span>, message: <span class="hljs-string">'expected person.lastName to be a string'</span> };
+  }
+
+  <span class="hljs-keyword">return</span> { success: <span class="hljs-literal">true</span>, value: person };
+};
+
+<span class="hljs-keyword">const</span> result = assertPerson(untrustedInput);
+<span class="hljs-keyword">if</span> (result.success) {
+  <span class="hljs-comment">// result.value is IPerson</span>
+  <span class="hljs-built_in">console</span>.log(result.value);
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-built_in">console</span>.error(result.message);
+}
+</code></pre>
+<p>This approach, while certainly more verbose, offers several advantages.</p>
+<ul>
+<li>Granular error reporting can give consumers actionable information</li>
+<li>Callers of this assertion utility are forced to handle the deserialization failure</li>
+<li>This function proves, one step at a time, that our unknown value is an <code>IPerson</code>. This is a powerful way to create a "living" assertion. If we were to add a property <code>city</code> to <code>IPerson</code>, the compiler would complain to us on the final line of <code>assertPerson</code>. After all, up to that point, we've only proven something like <code>{ firstName: string; lastName: string }</code>, which doesn't match <code>{ firstName: string; lastName: string; city: string }</code>.</li>
+</ul>
+<p>The disadvantage is that you have to write the code in <code>assertPerson</code>. Couldn't we automate this process?</p>
+<h2 id="thetserialsolution">The <code>tserial</code> solution</h2>
+<p><code>tserial</code> uses the TypeScript compiler API to generate assertion statements similar to the example shown above. <code>tserial</code> usage, which we'll describe in more detail later, is simple, transparent, and low overhead. I designed it with a few desirable outcomes in mind. I wasn't sure how many of these goals I'd be able to meet.</p>
+<ul>
+<li>I just want to write TypeScript. No DSLs or codecs, just plug-and-play with existing type expressions. This needs to work as a drop-in solution for a big, complex codebase.</li>
+<li>Should be able to be applied incrementally, i.e. without sweeping conversions across many files</li>
+<li>Support for type aliases, discriminated unions, literal types, intersection types, union types, and (resolved) generics are all must-haves.</li>
+<li>For use with serializable data only. Aggressively reject attempts to create assertions for non-serializable objects, e.g. classes and functions.<ul>
+<li>I recognize that this can be controversial; it's quite common to use classes as DTOs or models. My stance is that we should be using interfaces or pure type expressions to represent the kind of data transferred across system boundaries. Classes have runtime content (methods, getters/setters) that just don't make sense in this context.</li></ul></li>
+<li>Assertions must return granular, structured error data</li>
+<li>"Living assertions": assertions should fail type checking when they get out of sync with their types.</li>
+<li>No runtime dependencies, not even on <code>tserial</code> itself<ul>
+<li>This should allow support for the new experimental <a href="https://github.com/denoland/deno">deno</a> runtime</li></ul></li>
+<li>Minimal build-time dependencies (<code>typescript</code> only)<ul>
+<li>Reduce transitive dependencies that, unfortunately, sometimes expose us to security vulnerabilities</li></ul></li>
+<li>Minimal configuration. No plugins or custom compilers - it should run against your TypeScript project via a CLI utility or Node.js module with minimal changes.</li>
+<li>Should offer a high degree of transparency and ease of audit. Reviewing the generated deserializer should be straightforward if necessary. When <code>tserial</code> is updated with bug fixes or enhancements, the diff between the old output and the new output should help developers understand how updates have impacted them.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>The library is distributed via NPM. It should usually be installed as a dev dependency.</p>
+<h2 id="usage">Usage</h2>
+<p><code>tserial</code> exposes a CLI and a Node.js API; the command is run within the context of a TypeScript project. The output is a single file containing a deserialize function. Any file that needs to deserialize data will import this function.</p>
+<p>Rather than attempt to analyze every interface and type alias in your project, <code>tserial</code> is "opt-in". Interfaces that are meant to be validated at runtime should be marked with a <code>serializable</code> JSDoc tag. The name of the tag can be customized.</p>
+<pre><code class="hljs typescript language-typescript"><span class="hljs-comment">/**
+ * @serializable
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> MyInterface {
+  prop: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+<pre><code class="hljs"><span class="hljs-keyword">import</span> { deserialize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./output-file.ts'</span>;
+
+<span class="hljs-keyword">const</span> goodData = { <span class="hljs-attr">prop</span>: <span class="hljs-string">'1234'</span> };
+<span class="hljs-keyword">const</span> badData = { <span class="hljs-attr">prop</span>: <span class="hljs-number">1234</span> };
+
+<span class="hljs-comment">/**
+ * { success: true, value: { prop: '1234' } } - `value` is type `MyInterface`
+ */</span>
+<span class="hljs-built_in">console</span>.log(deserialize(<span class="hljs-string">'MyInterface'</span>, goodData));
+
+<span class="hljs-comment">/**
+ * { success: false, { ...errorInfo } }
+ */</span>
+<span class="hljs-built_in">console</span>.log(deserialize(<span class="hljs-string">'MyInterface'</span>, badData));
+</code></pre>
+<h2 id="buildintegration">Build integration</h2>
+<p>When to run <code>tserial</code> is largely up to the developer. A low-tech option would be to add an NPM script (or a simple Node script) that runs the command and developers will be responsible for running the script when source types are added, removed, or changed. In almost all situations, the TypeScript compiler will raise errors when source types have been modified and the generated code is stale. Regardless, it may be useful to add some CI step that generates a fresh script, compares it to the old one, and throws an error if there isn't an exact match. <strong>The output file should be checked in.</strong></p>
+<h2 id="alternativesolutions">Alternative solutions</h2>
+<h3 id="iotshttpsgithubcomgcantiiots"><a href="https://github.com/gcanti/io-ts">io-ts</a></h3>
+<p>Probably the most prominent and widely used solution available today. <code>io-ts</code> uses codecs to represent types. Runtime objects can be deserialized by running them through the codec. The <a href="https://lorefnon.tech/2018/03/25/typescript-and-validations-at-runtime-boundaries">blog post introducing io-ts</a> does a fantastic job of explaining the approach and showing basic usage.</p>
+<p><code>io-ts</code> has a lot of advantages. It requires no build step, no compiler transformations, it just works.</p>
+<p>The only downside is that you kind of need to drink the <code>io-ts</code> kool-aid. TypeScript interfaces will not be your source of truth, the codec will. This is all perfectly type-safe and correct, but if your preference is to model your data with pure TypeScript (i.e. interfaces and other type expressions), you may not be excited about adopting this approach.</p>
+<h3 id="othernotableprojects">Other notable projects</h3>
+<ul>
+<li><a href="https://github.com/fabiandev/ts-runtime">ts-runtime</a> extends the TypeScript type system to modify compiler output and, essentially, implements runtime types. While laudable, this approach may give developers pause. The compilation result is fundamentally changed from "vanilla" TypeScript and is done so in a way that is fairly opaque from a developer's point of view.</li>
+<li><a href="https://github.com/woutervh-/typescript-is">typescript-is</a> uses TypeScript transformations API to create runtime validation logic. You'll need to configure the build to use a special TypeScript compiler since TypeScript doesn't support transform plugins out of the box. Under the hood, <code>typescript-is</code> has a similar approach to <code>tserial</code>. No granular error reporting.</li>
+<li><a href="https://github.com/usabilityhub/ts-auto-guard">ts-auto-guard</a> Generates type guard functions for interfaces. At this time, it doesn't have support for type aliases (e.g. discriminated unions). It also only provides a boolean result rather than granular validation errors.</li>
+<li><a href="https://github.com/moodysalem/jointz">jointz</a> is fairly new on the scene and could be described as a lighter-weight version of <code>io-ts</code></li>
+<li>Likely others that I've missed</li>
+</ul>
+        </div>
+      

@@ -1,26 +1,41 @@
-import * as chokidar from 'chokidar';
-import { generate } from './gen';
-import * as nodeStatic from 'node-static';
-import * as http from 'http';
-import chalk from 'chalk';
+import * as chokidar from "chokidar";
+import { generate } from "./generate";
+import { Server } from "node-static";
+import http from "http";
+import chalk from "chalk";
+import { startServer } from "../blog-editor/server";
+import { generateBlog } from "./generate-blog";
+import { debounce } from "./debounce";
 
-const watcher = chokidar.watch('./src/**/*', {
-  persistent: true
-});
+(async () => {
+  await startServer();
 
-watcher.on('change', path => {
-  generate();
-})
+  const dataWatcher = chokidar.watch("./blog-editor/data.json", {
+    persistent: true
+  });
+  await generateBlog();
 
-generate();
+  const srcWatcher = chokidar.watch("./src/**/*", {
+    persistent: true
+  });
 
-const content = new nodeStatic.Server('./dist');
+  await generate();
 
-const port = 64536;
-http.createServer((request, response) => {
-  request.addListener('end', () => {
-    content.serve(request, response);
-  }).resume();
-}).listen(port);
+  dataWatcher.on("change", debounce(() => generateBlog(), 250));
+  srcWatcher.on("change", debounce(() => generate(), 250));
 
-console.log(chalk.greenBright(`Dev server at http://localhost:${port}`));
+  const content = new Server("./dist");
+
+  const port = 64536;
+  http
+    .createServer((request, response) => {
+      request
+        .addListener("end", () => {
+          content.serve(request, response);
+        })
+        .resume();
+    })
+    .listen(port);
+
+  console.log(chalk.greenBright(`Site at http://localhost:${port}`));
+})();
