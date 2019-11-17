@@ -36,7 +36,6 @@ export const generate = async () => {
     {
       label: "Blog",
       key: "blog",
-      index: true,
       subsections: Object.values(data).map(post => {
         return {
           label: post.title,
