@@ -47,7 +47,7 @@ export const generate = async () => {
       css: "./src/common/blog.scss"
     },
     {
-      label: "Contact",
+      label: "Contact/Socials",
       key: "contact"
     }
   ];
@@ -85,12 +85,11 @@ export const generate = async () => {
             <div class="title">Luke Autry</div>
             <div class="links">
             ${sections
-              .map(s => {
-                return `<a class="${
-                  s.key === rootPath ? "active" : ""
-                }" href="/${s.key}">${s.label}</a>`;
-              })
-              .join("\n")}
+      .map(s => {
+        return `<a class="${s.key === rootPath ? "active" : ""
+          }" href="/${s.key}">${s.label}</a>`;
+      })
+      .join("\n")}
             </div>
           </div>
         </header>

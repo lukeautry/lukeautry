@@ -11,9 +11,10 @@
   padding: 0 2rem;
   display: flex;
   align-items: center;
+  font-size: .8rem;
 
   strong {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 
   @media (max-width: $mobile-cutoff) {
@@ -32,8 +33,7 @@
   display: flex;
 
   img {
-    max-width: 350px;
-    height: auto;
+    height: 435px;
   }
 
   @media (max-width: 500px) {
