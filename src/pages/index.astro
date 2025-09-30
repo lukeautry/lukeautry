@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.tsx';
+import NetworkVisualization from '../components/NetworkVisualization.tsx';
+---
+
+<Layout title="Luke Autry - Building leverage for developers">
+  <Header currentPath="/" client:load />
+
+  <main class="flex-1 flex items-center justify-center px-6 lg:px-12 py-8">
+    <div class="max-w-[90rem] w-full grid grid-cols-1 lg:grid-cols-9 gap-8 items-center">
+      <!-- Content Section -->
+      <div class="lg:col-span-4 space-y-8">
+        <div class="space-y-6">
+          <h1 class="text-4xl lg:text-5xl xl:text-6xl font-light leading-tight">
+            Scaling teams through <span class="bg-gradient-to-r from-primary-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">exceptional</span><br />developer experience
+          </h1>
+
+          <p class="text-lg lg:text-xl text-gray-300 max-w-lg">
+            Staff Software Engineer at <span class="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent font-medium">Netflix</span>, building an orchestration platform + dev tools for media production.
+          </p>
+        </div>
+
+        <div>
+          <a
+            href="/about"
+            class="inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors font-medium"
+          >
+            Learn more →
+          </a>
+        </div>
+      </div>
+
+      <!-- Visualization Section -->
+      <div class="lg:col-span-5 h-[400px] lg:h-[500px] xl:h-[600px] relative">
+        <NetworkVisualization client:load />
+      </div>
+    </div>
+  </main>
+</Layout>
