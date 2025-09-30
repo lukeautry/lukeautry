@@ -12,31 +12,33 @@ const navItems = [
 
 const Header: React.FC<HeaderProps> = ({ currentPath = '/' }) => {
   return (
-    <header className="w-full py-6 px-6 lg:px-12">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
+    <header className="w-full py-4 sm:py-6 px-4 sm:px-6 lg:px-12">
+      <nav className="flex flex-col sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto gap-4 sm:gap-0">
         <a
           href="/"
-          className="text-xl text-white hover:text-primary-500 transition-colors"
+          className="text-lg sm:text-xl text-white hover:text-primary-500 transition-colors whitespace-nowrap"
         >
           LUKE AUTRY
         </a>
 
-        <div className="flex items-center space-x-8">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`text-sm font-medium transition-colors ${
-                currentPath === item.href
-                  ? 'text-primary-500'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+          <div className="flex flex-wrap gap-4 sm:gap-8">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`text-sm font-medium transition-colors ${
+                  currentPath === item.href
+                    ? 'text-primary-500'
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
 
-          <div className="flex items-center space-x-4 ml-4">
+          <div className="flex items-center space-x-4">
             <a
               href="https://www.linkedin.com/in/luke-autry-8b140b96/"
               target="_blank"
