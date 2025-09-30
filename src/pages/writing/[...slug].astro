@@ -1,0 +1,192 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.tsx';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => {
+    return data.draft !== true;
+  });
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} - Luke Autry`}>
+  <Header currentPath="/writing" client:load />
+
+  <main class="min-h-screen px-6 lg:px-12 py-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="space-y-8">
+        <!-- Back link -->
+        <div>
+          <a
+            href="/writing"
+            class="text-primary-400 hover:text-primary-500 transition-colors font-medium"
+          >
+            ← Back to Writing
+          </a>
+        </div>
+
+        <!-- Article header -->
+        <header class="space-y-6">
+          <div class="space-y-4">
+            <h1 class="text-4xl lg:text-5xl font-bold text-white">
+              {post.data.title}
+            </h1>
+
+            <div class="flex items-center justify-between flex-wrap gap-4">
+              <time class="text-gray-400">
+                {new Date(post.data.publishedDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="flex gap-2 flex-wrap">
+                  {post.data.tags.map((tag) => (
+                    <span class="px-3 py-1 text-sm bg-primary-500/20 text-primary-400 rounded-md">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <p class="text-xl text-gray-300 leading-relaxed">
+              {post.data.description}
+            </p>
+          </div>
+
+          <hr class="border-dark-700" />
+        </header>
+
+        <!-- Article content -->
+        <article class="prose prose-lg prose-invert max-w-none">
+          <Content />
+        </article>
+
+        <!-- Footer -->
+        <footer class="pt-8 mt-12 border-t border-dark-700">
+          <div class="text-center">
+            <a
+              href="/writing"
+              class="text-primary-400 hover:text-primary-500 transition-colors font-medium"
+            >
+              ← Back to Writing
+            </a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Custom prose styles to match your design */
+  :global(.prose h1) {
+    @apply text-3xl font-bold text-white mt-8 mb-4;
+  }
+
+  :global(.prose h2) {
+    @apply text-2xl font-semibold text-white mt-6 mb-3;
+  }
+
+  :global(.prose h3) {
+    @apply text-xl font-medium text-white mt-5 mb-2;
+  }
+
+  :global(.prose p) {
+    @apply text-gray-300 leading-relaxed mb-4;
+  }
+
+  :global(.prose a) {
+    @apply text-primary-400 hover:text-primary-500 transition-colors font-medium underline decoration-primary-400/50 hover:decoration-primary-500;
+  }
+
+  :global(.prose blockquote) {
+    @apply border-l-4 border-primary-500 pl-6 my-6 text-lg italic text-primary-50;
+  }
+
+  :global(.prose code) {
+    @apply bg-dark-800 text-primary-400 px-1.5 py-0.5 rounded text-sm;
+  }
+
+  :global(.prose pre) {
+    @apply bg-dark-900 border border-dark-700 rounded-lg p-4 overflow-x-auto;
+  }
+
+  :global(.prose pre code) {
+    @apply bg-transparent px-0 py-0;
+  }
+
+  :global(.prose ul) {
+    @apply list-disc list-inside space-y-2 text-gray-300;
+  }
+
+  :global(.prose ol) {
+    @apply list-decimal list-inside space-y-2 text-gray-300;
+  }
+
+  :global(.prose li) {
+    @apply text-gray-300;
+  }
+
+  /* Admonition Styles */
+  :global(.admonition) {
+    @apply rounded-lg border p-4 my-6;
+  }
+
+  :global(.admonition-info) {
+    @apply bg-blue-50/10 border-primary-500/30;
+  }
+
+  :global(.admonition-info::before) {
+    content: "ℹ️ ";
+    @apply text-primary-400 font-semibold mr-2;
+  }
+
+  :global(.admonition-tip) {
+    @apply bg-green-50/10 border-green-500/30;
+  }
+
+  :global(.admonition-tip::before) {
+    content: "💡 ";
+    @apply text-green-400 font-semibold mr-2;
+  }
+
+  :global(.admonition-note) {
+    @apply bg-gray-50/10 border-gray-500/30;
+  }
+
+  :global(.admonition-note::before) {
+    content: "📝 ";
+    @apply text-gray-400 font-semibold mr-2;
+  }
+
+  :global(.admonition-caution) {
+    @apply bg-yellow-50/10 border-yellow-500/30;
+  }
+
+  :global(.admonition-caution::before) {
+    content: "⚠️ ";
+    @apply text-yellow-400 font-semibold mr-2;
+  }
+
+  :global(.admonition-danger) {
+    @apply bg-red-50/10 border-red-500/30;
+  }
+
+  :global(.admonition-danger::before) {
+    content: "🚨 ";
+    @apply text-red-400 font-semibold mr-2;
+  }
+</style>

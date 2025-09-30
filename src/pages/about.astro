@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.tsx';
+---
+
+<Layout title="About - Luke Autry">
+  <Header currentPath="/about" client:load />
+
+  <main class="min-h-screen px-6 lg:px-12 py-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="space-y-8">
+        <h1 class="text-4xl lg:text-5xl font-bold">About</h1>
+
+        <div class="prose prose-lg prose-invert max-w-none space-y-8">
+
+          <!-- Personal Introduction -->
+          <div class="text-xl text-gray-300 leading-relaxed space-y-6">
+            <p>
+              My first interaction with a computer was when I was 5 or so—this must have been 1992 or 1993. My mom had a work laptop, some kind of ThinkPad running OS/2 with that classic red pointer trackpad that was infuriating to use. There weren't even any games on it! I just liked clicking around and seeing what would happen.
+            </p>
+
+            <p>
+              The desktop computer interface was immediately fascinating to me. We got a home PC with Windows 3.1 right around that time, and I graduated to dial-up + AOL (which was really "the web" or the "internet" at that time, at least for me).
+            </p>
+
+            <p>
+              What I found so captivating about the internet was the endless possibilities of it. I remember not understanding how the adults weren't freaking out about how incredible this technology was. Turns out they were—they just lived in Silicon Valley and not Cary, North Carolina.
+            </p>
+          </div>
+
+          <!-- Philosophy Section -->
+          <div class="space-y-6">
+            <h2 class="text-3xl font-semibold text-white">Excellence is Service</h2>
+
+            <div class="text-xl text-gray-300 leading-relaxed space-y-6">
+              <p>
+                I often think about what it would be like to work at, or run, a chain restaurant like McDonald's. I like to think that I'd run the best McDonald's in town, with the happiest staff and customers that chose to come to our McDonald's instead of the one 5 minutes closer.
+              </p>
+
+              <p>
+                That would genuinely satisfy me. I worked at a pizza place for most of high school and college, and I loved the process of rolling out dough, getting the right amount of sauce on the pizza, evenly placing the pepperonis, and ultimately giving that end product to a smiling customer.
+              </p>
+
+              <p>
+                That's my north star—what drives me now. I get this dopamine hit when I build something excellent, high quality, well thought out, and useful or joyful to someone.
+              </p>
+
+              <p>
+                I do like to code and software specifically, but what keeps me going is feeling my purpose is to <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent font-medium">serve people and create great tools for them</span>.
+              </p>
+
+              <p>
+                It annoys me when people don't take their work seriously or settle for low quality. I hope for a world where the bar is higher—and I want to be part of the solution, whether that means making great things myself, or inspiring others to do even better.
+              </p>
+            </div>
+          </div>
+
+          <!-- DevEx Philosophy -->
+          <div class="space-y-6">
+            <h2 class="text-3xl font-semibold text-white">Good Developer Experience is Good User Experience</h2>
+
+            <div class="text-xl text-gray-300 leading-relaxed space-y-6">
+              <p>
+                In all my stops along the way in my career, I usually ended up becoming the "static typing zealot + we need linting and autoformatting + we need unit tests and integration tests" guy.
+              </p>
+
+              <p>
+                But it's not about coding purity—it's always been about moving faster and better towards delivering that end product that users love, and conversely, <em>not</em> breaking or delivering bad quality things.
+              </p>
+
+              <p>
+                I just can't tolerate poor developer experience. Why is the build so slow? Why does this service take 2 minutes to cold start? Why wasn't this bug caught at compile time or by lightweight unit tests? All of these things are obstacles that prevent us from bringing joy to the user.
+              </p>
+
+              <div class="border-l-4 border-primary-500 pl-6 my-8">
+                <p class="text-2xl font-medium text-primary-400 italic">
+                  Bad DevEx is sadness and disappointment encapsulated.
+                </p>
+              </div>
+
+              <p>
+                The user empathy obsession extends to the tools that we are building for ourselves too. What will devs <span class="bg-gradient-to-r from-primary-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-medium">feel</span> when it's time to start work on a Monday? Do they feel a sense of <span class="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent font-medium">dread</span>, or <span class="bg-gradient-to-r from-primary-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-medium">excitement</span>? Are they worried that the build will be broken, or that any change they make could bring down prod? Or are they <span class="bg-gradient-to-r from-primary-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-medium">excited</span> to build—because they know the easy problems have been solved—and their path is clear to bring new solutions to our customers?
+              </p>
+            </div>
+          </div>
+
+          <!-- Career Evolution -->
+          <div class="space-y-6">
+            <h2 class="text-3xl font-semibold text-white">DevEx Multiplies Everything</h2>
+
+            <div class="text-xl text-gray-300 leading-relaxed space-y-6">
+              <p>
+                That's really what brought me into DevEx—that thought that, if we could make one of our most expensive and precious assets (engineering staff) a little more <span class="bg-gradient-to-r from-primary-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-medium">excited</span> to do their work, how much better would the product be?
+              </p>
+
+              <p>
+                Wouldn't this spread to every other part of the business? Better product, better employee retention and satisfaction, faster iteration + feedback loops.
+              </p>
+
+              <p>
+                My first taste of pure DevEx was with <a href="https://github.com/lukeautry/tsoa" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-500 transition-colors font-medium underline decoration-primary-400/50 hover:decoration-primary-500">tsoa</a>—the open source library for building OpenAPI compliant REST APIs with just TypeScript. This got into TypeScript compiler internals, building CLIs, and supporting a community of devs.
+              </p>
+
+              <p>
+                Netflix is really where I started to be able to do DevEx essentially as a full-time job—and to help lead a team of folks working towards the same mission. Media production workflows are complicated, but at the root of these workflows are a lot of tools that all have to work seamlessly with each other, and a lot of "developer surface" that—traditionally in the studio world—has been, uh... not to my standards.
+              </p>
+
+              <p>
+                What I work on now at Netflix, <strong>Studio Orchestrator</strong>, let me transform what was essentially a prototype into a production-critical platform. I helped rethink how media workflows are built and observed at Netflix scale.
+              </p>
+
+              <p>
+                We went from 0 to 1 over 3 years—a loose product idea with zero adoption to something powering the biggest virtual production operation in the world. Studio Orchestrator is now a platform—backed by Conductor, comprising a node-graph UI, rich observability tools, and SDKs—that integrates seamlessly across the Netflix ecosystem.
+              </p>
+
+              <p>
+                That experience cemented what I now know: when you improve how developers work, you improve everything that depends on their work.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
