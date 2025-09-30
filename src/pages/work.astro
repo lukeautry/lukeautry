@@ -1,0 +1,232 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.tsx';
+---
+
+<Layout title="Work - Luke Autry">
+  <Header currentPath="/work" client:load />
+
+  <main class="min-h-screen px-6 lg:px-12 py-12">
+    <div class="max-w-5xl mx-auto">
+      <div class="space-y-12">
+        <h1 class="text-4xl lg:text-5xl font-bold">Work</h1>
+
+        <!-- Timeline Container -->
+        <div class="relative">
+          <!-- Continuous Timeline Spine (hidden on mobile) -->
+          <div class="hidden lg:block absolute left-8 top-12 w-0.5 bg-gradient-to-b from-primary-400 via-cyan-400 to-pink-400 opacity-60" style="bottom: 9rem;"></div>
+
+          <div class="space-y-8">
+
+          <!-- Netflix -->
+          <div class="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-4 relative">
+            <!-- Timeline Column (hidden on mobile) -->
+            <div class="hidden lg:flex relative flex-col items-center">
+              <!-- Timeline Node (larger for most recent) -->
+              <div class="w-6 h-6 rounded-full bg-gradient-to-r from-red-500 to-red-600 ring-4 ring-dark-800 shadow-lg z-10" style="margin-top: 2.65rem;"></div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="bg-gradient-to-br from-dark-800/50 to-dark-900/50 backdrop-blur-sm border border-dark-700/50 rounded-lg p-6">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                    <img src="/netflix.jfif" alt="Netflix" class="w-full h-full object-cover" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h3 class="text-xl lg:text-2xl font-bold text-white">Netflix</h3>
+                    <p class="text-primary-400 font-medium">Senior → Staff Software Engineer</p>
+                  </div>
+                  <div class="text-right text-gray-400 lg:ml-auto">
+                    <p class="font-medium text-sm lg:text-base">Jun 2021 - Present</p>
+                    <p class="text-xs lg:text-sm">4 yrs 4 mos</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-gray-300">
+                  <p class="leading-relaxed">
+                    Leading developer experience initiatives and building production-critical platforms at Netflix scale. Focused on media production workflows, transforming how teams build and observe complex systems.
+                  </p>
+
+                  <div class="space-y-2">
+                    <h4 class="text-primary-400 font-medium">Studio Orchestrator Platform</h4>
+                    <p class="text-sm">Transformed a prototype into the backbone of the world's largest scripted content production system. Built a comprehensive platform comprising node-graph UI, rich observability tools, and SDKs that integrate seamlessly across the Netflix ecosystem.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- Heap -->
+          <div class="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-4 relative">
+            <!-- Timeline Column (hidden on mobile) -->
+            <div class="hidden lg:flex relative flex-col items-center">
+              <!-- Timeline Node -->
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 ring-4 ring-dark-800 shadow-lg z-10" style="margin-top: 2.65rem;"></div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="bg-gradient-to-br from-dark-800/50 to-dark-900/50 backdrop-blur-sm border border-dark-700/50 rounded-lg p-6">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                    <img src="/heap.jfif" alt="Heap" class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h3 class="text-2xl font-bold text-white">Heap</h3>
+                    <p class="text-primary-400 font-medium">Senior Software Engineer</p>
+                  </div>
+                  <div class="ml-auto text-right text-gray-400">
+                    <p class="font-medium">Jan 2019 - Jun 2021</p>
+                    <p class="text-sm">2 yrs 6 mos</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-gray-300">
+                  <p class="leading-relaxed">
+                    Worked on the web analytics platform, building the query web UI, dashboard visualizations, and backend query system responsible for converting queries into SQL.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          <!-- ERC dEX -->
+          <div class="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-4 relative">
+            <!-- Timeline Column (hidden on mobile) -->
+            <div class="hidden lg:flex relative flex-col items-center">
+              <!-- Timeline Node -->
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 ring-4 ring-dark-800 shadow-lg z-10" style="margin-top: 2.65rem;"></div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="bg-gradient-to-br from-dark-800/50 to-dark-900/50 backdrop-blur-sm border border-dark-700/50 rounded-lg p-6">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center p-2">
+                    <img src="/ercdex.svg" alt="ERC dEX" class="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <h3 class="text-2xl font-bold text-white">ERC dEX</h3>
+                    <p class="text-primary-400 font-medium">CTO & Co-founder</p>
+                  </div>
+                  <div class="ml-auto text-right text-gray-400">
+                    <p class="font-medium">Sep 2017 - Dec 2018</p>
+                    <p class="text-sm">1 yr 4 mos</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-gray-300">
+                  <p class="leading-relaxed">
+                    Co-founded a web-based trading platform for token traders on the Ethereum network. Built the trading interface and developed an SDK for blockchain applications.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          <!-- tsoa Open Source -->
+          <div class="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-4 relative">
+            <!-- Timeline Column (hidden on mobile) -->
+            <div class="hidden lg:flex relative flex-col items-center">
+              <!-- Timeline Node -->
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 ring-4 ring-dark-800 shadow-lg z-10" style="margin-top: 2.65rem;"></div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="bg-gradient-to-br from-dark-800/50 to-dark-900/50 backdrop-blur-sm border border-dark-700/50 rounded-lg p-6">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                    <img src="/github_logo.jfif" alt="tsoa" class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h3 class="text-2xl font-bold text-white">
+                      <a href="https://github.com/lukeautry/tsoa" target="_blank" rel="noopener noreferrer" class="hover:text-primary-400 transition-colors">
+                        tsoa
+                      </a>
+                    </h3>
+                    <p class="text-primary-400 font-medium">Open Source Creator</p>
+                  </div>
+                  <div class="ml-auto text-right text-gray-400">
+                    <p class="font-medium">2016 - Present</p>
+                    <p class="text-sm">4k+ ⭐</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-gray-300">
+                  <p class="leading-relaxed">
+                    Created and maintain <a href="https://github.com/lukeautry/tsoa" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-500 transition-colors font-medium underline decoration-primary-400/50 hover:decoration-primary-500">tsoa</a>, a TypeScript library for building OpenAPI-compliant REST APIs. Used by 6.6k+ repositories with 180+ contributors.
+                  </p>
+
+                  <div class="space-y-2">
+                    <h4 class="text-primary-400 font-medium">Key Features</h4>
+                    <p class="text-sm">TypeScript-first API development using decorators and type annotations as the single source of truth. Automatic OpenAPI spec generation, request validation, and support for Express, Hapi, and Koa frameworks.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- UserVoice -->
+          <div class="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-4 relative">
+            <!-- Timeline Column (hidden on mobile) -->
+            <div class="hidden lg:flex relative flex-col items-center">
+              <!-- Timeline Node -->
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500 ring-4 ring-dark-800 shadow-lg z-10" style="margin-top: 2.65rem;"></div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="bg-gradient-to-br from-dark-800/50 to-dark-900/50 backdrop-blur-sm border border-dark-700/50 rounded-lg p-6">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                    <img src="/uservoice.jfif" alt="UserVoice" class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h3 class="text-2xl font-bold text-white">UserVoice</h3>
+                    <p class="text-primary-400 font-medium">Software Engineer</p>
+                  </div>
+                  <div class="ml-auto text-right text-gray-400">
+                    <p class="font-medium">Oct 2015 - Feb 2018</p>
+                    <p class="text-sm">2 yrs 5 mos</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-gray-300">
+                  <p class="leading-relaxed">
+                    Developed customer feedback and product management tools, focusing on scalable web applications and API design.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          <!-- ShareFile (Citrix) -->
+          <div class="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-4 relative">
+            <!-- Timeline Column (hidden on mobile) -->
+            <div class="hidden lg:flex relative flex-col items-center">
+              <!-- Timeline Node -->
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 ring-4 ring-dark-800 shadow-lg z-10" style="margin-top: 2.65rem;"></div>
+            </div>
+
+            <!-- Content Column -->
+            <div class="bg-gradient-to-br from-dark-800/50 to-dark-900/50 backdrop-blur-sm border border-dark-700/50 rounded-lg p-6">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                    <img src="/citrix.jfif" alt="Citrix" class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h3 class="text-2xl font-bold text-white">ShareFile (Citrix)</h3>
+                    <p class="text-primary-400 font-medium">Customer Support → Software Engineer</p>
+                  </div>
+                  <div class="ml-auto text-right text-gray-400">
+                    <p class="font-medium">2011 - 2015</p>
+                    <p class="text-sm">4 yrs</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-gray-300">
+                  <p class="leading-relaxed">
+                    Worked on the ShareFile web application as a software engineer, after starting in customer support and progressively advancing through technical roles. Self-taught programming while solving increasingly complex problems, building my engineering foundation at this growing SaaS company.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
